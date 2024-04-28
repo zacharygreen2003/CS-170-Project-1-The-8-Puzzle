@@ -70,6 +70,8 @@ int main() {
         puzzle = Puzzle::defaultPuzzle();
     }
 
+    puzzle.printPuzzle();
+
     printAlgorithmChoice();
     cin >> choice;
     // SearchAlgorithm* algorithm = getAlgorithm(choice, puzzle);
