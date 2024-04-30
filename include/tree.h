@@ -1,3 +1,6 @@
+#ifndef TREE_H
+#define TREE_H
+
 #include "node.h"
 #include <vector>
 
@@ -10,7 +13,11 @@ class Tree
     public:
         Tree();
         Tree(Node*);
+        ~Tree();
         void SetHead(Node*);
+        Node* GetHead();
         vector<Node*> ParentList(Node*);
-        bool Contains(Node*);
+        //bool Contains(Node*);
 };
+
+#endif

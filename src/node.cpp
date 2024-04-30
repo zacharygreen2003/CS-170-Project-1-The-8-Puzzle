@@ -17,6 +17,14 @@ Node::Node(Puzzle currBoard, int c, int h)
     parent = nullptr;
 }
 
+Node::~Node() 
+{
+    for(Node* container : children)
+    {
+        delete container;
+    }
+}
+
 void Node::SetParent(Node* par)
 {
     parent = par;

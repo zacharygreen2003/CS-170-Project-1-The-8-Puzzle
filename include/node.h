@@ -1,3 +1,6 @@
+#ifndef NODE_H
+#define NODE_H
+
 #include "puzzle.h"
 #include <vector>
 
@@ -14,6 +17,7 @@ class Node
         int hueristic;
         Node();   
         Node(Puzzle, int, int);
+        ~Node();
         void SetParent(Node*);
         void SetChild(Node*);
         int GetNumChild();
@@ -21,3 +25,5 @@ class Node
         Node* GetParent();
         Puzzle GetPuzzle();
 };
+
+#endif
