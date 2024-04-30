@@ -24,7 +24,11 @@ vector<Node*> Tree::ParentList(Node* child)
 
 bool Tree::Contains(Node* child)
 {
-    if(child == nullptr){}
+    if(child == nullptr){return false;}
+    if(child->GetPuzzle()==head->GetPuzzle()){
+        return true;
+    }
+    return TreeSearch(head, child);
 }
 
 bool TreeSearch(Node* curr, Node* Sol)
