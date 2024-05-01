@@ -1,5 +1,4 @@
 #include "../include/tree.h"
-#include <stack>
 
 using namespace std;
 
