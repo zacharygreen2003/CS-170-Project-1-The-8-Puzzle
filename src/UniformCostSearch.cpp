@@ -9,11 +9,19 @@ Node* UniformCostSearch(Node* s)
 {
     int numExpandedNodes = 0;
     int maxQueueSize = 0;
-
-    bool repeated = false;
+    int traceChoice = 1;
+    bool notRepeated = false;
+    bool enableTrace = true;
     queue<Node*> moves;
     vector<Node*> pastMoves;
     Node* currNode = nullptr;
+
+    cout << "Would you like to trace all expanded nodes? 1) Yes  2) No" << endl;
+    cin >> traceChoice;
+    if(traceChoice == 2)
+    {
+        enableTrace = false;
+    }
     moves.push(s);
     while(!moves.empty())
     {
@@ -22,10 +30,16 @@ Node* UniformCostSearch(Node* s)
             maxQueueSize = moves.size();
         }
         currNode = moves.front();
+        pastMoves.push_back(currNode);
         numExpandedNodes++;
+
+        if(enableTrace)
+        {
         cout<<"The best state to expand with g(n) = "<<currNode->cost<<" and h(n) = "<<currNode->hueristic<<" is..." <<endl;
         currNode->GetPuzzle().printPuzzle();
         cout << "Expanding Node..." << endl << endl;
+        }
+
         if(currNode->GetPuzzle().isGoal())
         {
             cout << "GOAL!!!" << endl << endl;
@@ -34,25 +48,25 @@ Node* UniformCostSearch(Node* s)
             cout << "The depth of the goal node was " << currNode->cost << endl << endl;
             return currNode;
         }
+        
         vector<Puzzle> succ;
         succ = currNode->GetPuzzle().successors();
         for(unsigned int i = 0; i < succ.size(); i++)
         {
-            repeated = true;
+            notRepeated = true;
             Node* next = new Node(succ[i],currNode->cost + 1, 0);
             for(unsigned int j = 0; j < pastMoves.size(); j++)
             {
                 if(pastMoves[j]->GetPuzzle().getBoard() == next->GetPuzzle().getBoard())
                 {
-                   repeated = false; 
+                   notRepeated = false; 
                 }
             }
-            if(repeated)
+            if(notRepeated)
             {
                 currNode->SetChild(next);
                 next->SetParent(currNode);
                 moves.push(next);
-                pastMoves.push_back(next);
             }
         }
         moves.pop();
