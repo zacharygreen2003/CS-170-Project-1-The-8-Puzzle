@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Node* UniformCostSearch(Puzzle board,Tree* movesTree, Node* s)
+Node* UniformCostSearch(Node* s)
 {
     int numExpandedNodes = 0;
     int maxQueueSize = 0;
@@ -14,9 +14,7 @@ Node* UniformCostSearch(Puzzle board,Tree* movesTree, Node* s)
     queue<Node*> moves;
     vector<Node*> pastMoves;
     Node* currNode = nullptr;
-    //Node* start = new Node(board, 0, 0);
     moves.push(s);
-    //movesTree->SetHead(start);
     while(!moves.empty())
     {
         if(moves.size() > maxQueueSize)

@@ -81,7 +81,7 @@ int main() {
     {
         Tree* allMoves;
         Node* initialState = new Node(puzzle, 0, 0);
-        Node* solution = UniformCostSearch(puzzle, allMoves, initialState);
+        Node* solution = UniformCostSearch(initialState);
         int numMoves = 0;
         if(solution != nullptr)
         {

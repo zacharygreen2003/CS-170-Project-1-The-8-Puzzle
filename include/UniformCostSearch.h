@@ -7,6 +7,6 @@
 #include "tree.h"
 
 
-Node* UniformCostSearch(Puzzle,Tree*,Node*);
+Node* UniformCostSearch(Node*);
 
 #endif
