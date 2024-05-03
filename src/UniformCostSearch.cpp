@@ -1,5 +1,6 @@
 //Currently being worked on by Donovan and Adwin
 #include "../include/UniformCostSearch.h"
+#include "../include/hashtable.h"
 #include <queue>
 #include <iostream>
 
@@ -13,7 +14,7 @@ Node* UniformCostSearch(Node* s)
     bool notRepeated = false;
     bool enableTrace = true;
     queue<Node*> moves;
-    vector<Node*> pastMoves;
+    HashTable pMoves(20);
     Node* currNode = nullptr;
 
     cout << "Would you like to trace all expanded nodes? 1) Yes  2) No" << endl;
@@ -30,7 +31,7 @@ Node* UniformCostSearch(Node* s)
             maxQueueSize = moves.size();
         }
         currNode = moves.front();
-        pastMoves.push_back(currNode);
+        pMoves.Insert(currNode->GetPuzzle());
         numExpandedNodes++;
 
         if(enableTrace)
@@ -55,12 +56,9 @@ Node* UniformCostSearch(Node* s)
         {
             notRepeated = true;
             Node* next = new Node(succ[i],currNode->cost + 1, 0);
-            for(int j = pastMoves.size() - 1; j >= 0; j--)
+            if(pMoves.Contains(next->GetPuzzle()))
             {
-                if(pastMoves[j]->GetPuzzle().getBoard() == next->GetPuzzle().getBoard())
-                {
-                   notRepeated = false; 
-                }
+                notRepeated = false;
             }
             if(notRepeated)
             {
