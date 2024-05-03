@@ -48,14 +48,14 @@ Node* UniformCostSearch(Node* s)
             cout << "The depth of the goal node was " << currNode->cost << endl << endl;
             return currNode;
         }
-        
+
         vector<Puzzle> succ;
         succ = currNode->GetPuzzle().successors();
         for(unsigned int i = 0; i < succ.size(); i++)
         {
             notRepeated = true;
             Node* next = new Node(succ[i],currNode->cost + 1, 0);
-            for(unsigned int j = 0; j < pastMoves.size(); j++)
+            for(int j = pastMoves.size() - 1; j >= 0; j--)
             {
                 if(pastMoves[j]->GetPuzzle().getBoard() == next->GetPuzzle().getBoard())
                 {
