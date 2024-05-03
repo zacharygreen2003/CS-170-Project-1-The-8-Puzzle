@@ -21,6 +21,7 @@ Node* UniformCostSearch(Node* s)
     cin >> traceChoice;
     if(traceChoice == 2)
     {
+        cout << "Finding best solution. This may take a while." << endl;
         enableTrace = false;
     }
     moves.push(s);
