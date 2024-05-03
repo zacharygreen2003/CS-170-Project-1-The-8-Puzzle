@@ -1,4 +1,4 @@
-#include "Puzzle.h"
+#include "../include/puzzle.h"
 #include <iostream>
 #include <algorithm>  // For std::swap
 
@@ -73,4 +73,9 @@ void Puzzle::printPuzzle() const {
         }
         cout << endl;
     }
+}
+
+vector<vector<int>> Puzzle::getBoard()
+{
+    return board;
 }

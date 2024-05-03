@@ -23,6 +23,7 @@ class Node
         int GetNumChild();
         Node* GetChild(int);
         Node* GetParent();
+        int ParentCost();
         Puzzle GetPuzzle();
 };
 

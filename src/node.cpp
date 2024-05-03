@@ -55,6 +55,15 @@ Node* Node::GetParent()
     return parent;
 }
 
+int Node::ParentCost()
+{
+    if(parent = nullptr)
+    {
+        return 0;
+    }
+    return parent->cost;
+}
+
 Puzzle Node::GetPuzzle(){
     return board;
 }

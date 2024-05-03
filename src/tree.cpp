@@ -29,9 +29,9 @@ Tree::~Tree()
     DeleteTree(head);
 }
 
-void Tree::SetHead(Node* start)
+void Tree::SetHead(Node* newHead)
 {
-    head = start;
+    head = newHead;
 }
 
 Node* Tree::GetHead()
@@ -80,3 +80,27 @@ bool TreeSearch(Node* curr, Node* Sol)
     }
     return false;
 }*/
+
+int Tree::TotalNodes()
+{
+    if(head = nullptr)
+    {
+        return 0;
+    }
+    return NodeHelper(head);
+}
+
+int NodeHelper(Node* curr)
+{
+    int totChild = curr->GetNumChild();
+    int numNode = 0;
+    if(totChild == 0)
+    {
+        return 1;
+    }
+    for(int i = 0; i < totChild; i++)
+    {
+        numNode += NodeHelper(curr->GetChild(i));
+    }
+    return numNode + 1;
+}
