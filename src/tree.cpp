@@ -52,32 +52,3 @@ vector<Node*> Tree::ParentList(Node* child)
     return parents;
 }
 
-/*bool Tree::Contains(Node* child)
-{
-    if(child == nullptr){return false;}
-    if(child->GetPuzzle()==head->GetPuzzle()){
-        return true;
-    }
-    return TreeSearch(head, child);
-}
-
-bool TreeSearch(Node* curr, Node* Sol)
-{
-    if(curr == nullptr)
-    {
-        return false;
-    }
-    if(curr->GetPuzzle() == Sol->GetPuzzle())
-    {
-        return true;
-    }
-    for(unsigned int i = 0; i < curr->GetNumChild(); i++)
-    {
-        bool foundChild = TreeSearch(curr->GetChild(i), Sol);
-        if(foundChild)
-        {
-            return foundChild;
-        }
-    }
-    return false;
-}*/

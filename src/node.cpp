@@ -1,6 +1,9 @@
 #include "../include/node.h"
+//#include "../include/hashtable.h"
 
 using namespace std;
+
+HashTable Node::ht(100000);
 
 Node::Node()
 {
@@ -57,4 +60,34 @@ Node* Node::GetParent()
 
 Puzzle Node::GetPuzzle(){
     return board;
+}
+
+vector<Node*> Node::expand() {
+    // should only expand to nodes that havent been discovered
+    // needs the hash table here and once in search for the firstNode
+    vector<Puzzle> puzzle = this->GetPuzzle().successors();
+    vector<Node*> n;
+
+    /*cout << "-------------" << endl;
+
+    for (int i = 0; i < puzzle.size(); ++i) {
+        cout << endl;
+        puzzle[i].printPuzzle();
+    }
+
+    cout << "-------------" << endl;*/
+    for (int i = 0; i < puzzle.size(); ++i) {
+       /* cout << endl;
+        puzzle[i].printPuzzle();*/
+        if (!ht.Contains(puzzle[i])) {
+            ht.Insert(puzzle[i]);
+            n.push_back(new Node(puzzle[i], 0, 0));
+        }
+    }
+
+    
+    
+    
+    children = n;
+    return n;
 }

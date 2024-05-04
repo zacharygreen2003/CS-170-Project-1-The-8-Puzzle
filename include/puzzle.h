@@ -17,9 +17,13 @@ public:
     vector<Puzzle> successors() const;
     void printPuzzle() const; // Add this line to declare the function
 
+    vector<vector<int>> getBoard();
+
+    //int goalCoordinates();
+    static const vector<vector<int>> goalState;
+
 private:
     vector<vector<int>> board;
-    static const vector<vector<int>> goalState;
 };
 
 #endif // PUZZLE_H

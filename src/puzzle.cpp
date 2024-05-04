@@ -1,6 +1,7 @@
-#include "Puzzle.h"
+#include "../include/puzzle.h"
 #include <iostream>
 #include <algorithm>  // For std::swap
+
 
 // Initialize the goal state statically as required
 const vector<vector<int>> Puzzle::goalState = {{1, 2, 3}, {4, 5, 6}, {7, 8, 0}};
@@ -31,7 +32,15 @@ int Puzzle::getTile(int row, int col) const {
 }
 
 bool Puzzle::isGoal() const {
-    return board == goalState;
+    return board == goalState; // ???
+    /*for (int row = 0; row < 3; ++row) {
+        for (int col = 0; col < 3; ++col) {
+            if ((*this).getTile(row,col) != goalState[row][col]) {
+                return false;
+            }
+        }
+    }
+    return true;*/
 }
 
 vector<Puzzle> Puzzle::successors() const {
@@ -74,3 +83,79 @@ void Puzzle::printPuzzle() const {
         cout << endl;
     }
 }
+
+
+vector<vector<int>> Puzzle::getBoard()
+{
+    return board;
+}
+
+//int Puzzle::goalCoordinates() {
+//    for (int row = 0; row < 3; ++row) {
+//        for (int col = 0; col < 3; ++col) {
+//            if (board[row][col] == 0) {
+//                return row * 10 + col;
+//            }
+//        }
+//    }
+//}
+
+
+/*
+Puzzle* Puzzle::moveWhiteCopy(int dir) {
+
+    int x, y,temp;
+    for (int row = 0; row < 3; ++row) {
+        for (int col = 0; col < 3; ++col) {
+            if (board[row][col] == 0) {
+                x = row;
+                y = col;
+            }
+        }
+    }
+
+    switch (dir) {
+        // UP
+        case 11:
+            if (y > 0) {
+                Puzzle* p = new Puzzle(board);
+                temp = p->getTile(x, y - 1);
+                p->setTile(x, y - 1,0);
+                p->setTile(x, y, temp);
+                return p;
+            }
+            break;
+        // DOWN
+        case 00:
+            if (y < 2) {
+                Puzzle* p = new Puzzle(board);
+                temp = p->getTile(x, y + 1);
+                p->setTile(x, y + 1, 0);
+                p->setTile(x, y, temp);
+                return p;
+            }
+            break;
+        // LEFT
+        case 10:
+            if (x > 0) {
+                Puzzle* p = new Puzzle(board);
+                temp = p->getTile(x-1, y);
+                p->setTile(x-1, y, 0);
+                p->setTile(x, y, temp);
+                return p;
+            }
+            break;
+        // RIGHT
+        case 01:
+            if (x < 2) {
+                Puzzle* p = new Puzzle(board);
+                temp = p->getTile(x + 1, y);
+                p->setTile(x + 1, y, 0);
+                p->setTile(x, y, temp);
+                return p;
+            }
+            break;
+    }
+    return nullptr;
+}
+*/

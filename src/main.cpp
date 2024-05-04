@@ -1,7 +1,9 @@
 // #include <bits/stdc++.h>
 
 #include <iostream>
-#include "Puzzle.h"
+#include "../include/puzzle.h"
+#include "../include/node.h"
+#include "../include/search.h"
 
 using namespace std;
 
@@ -54,26 +56,30 @@ void printAlgorithmChoice() {
 // }
 
 int main() {
-    printWelcomeMessage();
+    /*printWelcomeMessage();
     printMenu();
 
-    int choice;
-    cin >> choice;
-    Puzzle puzzle;
+    
+    cin >> choice;*/
+    Puzzle puzzle = Puzzle::defaultPuzzle();
 
-    if (choice == 1) {
+    /*if (choice == 1) {
         puzzle = Puzzle::defaultPuzzle();
     } else if (choice == 2) {
         puzzle = getUserDefinedPuzzle();
     } else {
         cerr << "Invalid input, using default puzzle." << endl;
         puzzle = Puzzle::defaultPuzzle();
-    }
+    }*/
 
-    puzzle.printPuzzle();
+    //puzzle.printPuzzle();
 
-    printAlgorithmChoice();
-    cin >> choice;
+    Node* head = new Node(puzzle,0,0);
+    Node* n = generalSearch(head,lifoQF);
+    n->GetPuzzle().printPuzzle();
+    //printAlgorithmChoice();
+    /*int choice;
+    cin >> choice;*/
     // SearchAlgorithm* algorithm = getAlgorithm(choice, puzzle);
 
     // algorithm->solve(puzzle);
