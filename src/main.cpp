@@ -1,7 +1,9 @@
 // #include <bits/stdc++.h>
 
 #include <iostream>
-#include "Puzzle.h"
+#include "../include/puzzle.h"
+#include "../include/UniformCostSearch.h"
+#include "../include/tree.h"
 
 using namespace std;
 
@@ -74,6 +76,35 @@ int main() {
 
     printAlgorithmChoice();
     cin >> choice;
+
+    if(choice == 1)
+    {
+        Tree* allMoves;
+        Node* initialState = new Node(puzzle, 0, 0);
+        Node* solution = UniformCostSearch(initialState);
+        int numMoves = 0;
+        if(solution != nullptr)
+        {
+            vector<Node*> movesList = allMoves->ParentList(solution);
+            Node* currNode;
+            cout << "Here is the best path to the solution: " << endl;  
+            for(int i = movesList.size() - 1; i >= 0; --i)
+            {
+                if(i == movesList.size() - 1){cout << "Initial state" << endl;}
+                else{cout << "Move " << numMoves << endl;}
+                numMoves++;
+                movesList[i]->GetPuzzle().printPuzzle();
+                cout << endl;
+            }
+            cout << "GOAL!!!" << endl;
+        }
+        else 
+        {
+            cout << "There is not path to the solution" << endl;
+        }
+        delete solution;
+        delete allMoves;
+    }
     // SearchAlgorithm* algorithm = getAlgorithm(choice, puzzle);
 
     // algorithm->solve(puzzle);

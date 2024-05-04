@@ -16,6 +16,7 @@ public:
     bool isGoal() const;
     vector<Puzzle> successors() const;
     void printPuzzle() const; // Add this line to declare the function
+    vector<vector<int>> getBoard();
 
 private:
     vector<vector<int>> board;

@@ -17,7 +17,7 @@ class Tree
         void SetHead(Node*);
         Node* GetHead();
         vector<Node*> ParentList(Node*);
-        //bool Contains(Node*);
 };
+
 
 #endif
