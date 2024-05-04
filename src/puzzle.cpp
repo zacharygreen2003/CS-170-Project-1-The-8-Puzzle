@@ -1,4 +1,4 @@
-#include "Puzzle.h"
+#include "puzzle.h"
 #include <iostream>
 #include <algorithm>  // For std::swap
 

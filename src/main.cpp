@@ -1,7 +1,7 @@
 // #include <bits/stdc++.h>
 
 #include <iostream>
-#include "Puzzle.h"
+#include "puzzle.h"
 
 using namespace std;
 
