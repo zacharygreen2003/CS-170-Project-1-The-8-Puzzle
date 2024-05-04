@@ -32,15 +32,7 @@ int Puzzle::getTile(int row, int col) const {
 }
 
 bool Puzzle::isGoal() const {
-    return board == goalState; // ???
-    /*for (int row = 0; row < 3; ++row) {
-        for (int col = 0; col < 3; ++col) {
-            if ((*this).getTile(row,col) != goalState[row][col]) {
-                return false;
-            }
-        }
-    }
-    return true;*/
+    return board == goalState;
 }
 
 vector<Puzzle> Puzzle::successors() const {
@@ -89,16 +81,6 @@ vector<vector<int>> Puzzle::getBoard()
 {
     return board;
 }
-
-//int Puzzle::goalCoordinates() {
-//    for (int row = 0; row < 3; ++row) {
-//        for (int col = 0; col < 3; ++col) {
-//            if (board[row][col] == 0) {
-//                return row * 10 + col;
-//            }
-//        }
-//    }
-//}
 
 
 /*

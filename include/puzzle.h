@@ -19,7 +19,6 @@ public:
 
     vector<vector<int>> getBoard();
 
-    //int goalCoordinates();
     static const vector<vector<int>> goalState;
 
 private:

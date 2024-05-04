@@ -52,7 +52,7 @@ void AStarEuclidean(std::vector<Node*>& frontier, const std::vector<Node*>& node
 
 Node* generalSearch(Node* startNode, QueueingFunction queueFunction) {
 
-    Puzzle p = startNode->GetPuzzle();
+    //Puzzle p = startNode->GetPuzzle();
 
     vector<Node*> frontier(1, startNode);
 
