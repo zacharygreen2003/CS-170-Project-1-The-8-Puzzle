@@ -16,6 +16,7 @@ Node* UniformCostSearch(Node* s)
     queue<Node*> moves;
     HashTable pMoves(20);
     Node* currNode = nullptr;
+    vector<Puzzle> succ;
 
     cout << "Would you like to trace all expanded nodes? 1) Yes  2) No" << endl;
     cin >> traceChoice;
@@ -45,13 +46,12 @@ Node* UniformCostSearch(Node* s)
         if(currNode->GetPuzzle().isGoal())
         {
             cout << "GOAL!!!" << endl << endl;
-            cout << "To solve this proble the algorithm expanded a total of " << numExpandedNodes << " nodes" << endl;
+            cout << "To solve this problem the algorithm expanded a total of " << numExpandedNodes << " nodes" << endl;
             cout << "The maximum number of nodes in the queue at any one time: " << maxQueueSize << endl;
             cout << "The depth of the goal node was " << currNode->cost << endl << endl;
             return currNode;
         }
 
-        vector<Puzzle> succ;
         succ = currNode->GetPuzzle().successors();
         for(unsigned int i = 0; i < succ.size(); i++)
         {

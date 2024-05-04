@@ -4,6 +4,7 @@
 #include "../include/puzzle.h"
 #include "../include/UniformCostSearch.h"
 #include "../include/tree.h"
+#include "../include/search.h"
 
 using namespace std;
 
@@ -34,27 +35,26 @@ Puzzle getUserDefinedPuzzle() {
     return p;
 }
 
+void chooseSearch(int choice, Puzzle &puzzle){
+    switch(choice){
+        case 1:
+            puzzle = Puzzle::defaultPuzzle();
+            break;
+        case 2:
+            puzzle = getUserDefinedPuzzle();
+            break;
+        default:
+            cerr<< "Invalid input, using default puzzle." << endl;
+            puzzle = Puzzle::defaultPuzzle();
+    }
+}
+
 void printAlgorithmChoice() {
     cout << "Enter your choice of algorithm" << endl;
     cout << "1. Uniform Cost Search" << endl;;
     cout << "2. A* with the Misplaced Tile heuristic" << endl;
     cout << "3. A* with the Euclidean distance heuristic" << endl;
 }
-
-// SearchAlgorithm* getAlgorithm(int choice, const Puzzle& puzzle) {
-//     switch (choice) {
-//         case 1:
-//             return new UniformCostSearch();
-//         case 2:
-//             return new AStarMisplacedTile();
-//         case 3:
-//             return new AStarEuclidean();
-//         default:
-//             std::cerr << "Invalid choice, using Uniform Cost Search by default.\n";
-//             return new UniformCostSearch();
-//     }
-// }
-
 int main() {
     printWelcomeMessage();
     printMenu();
@@ -62,53 +62,13 @@ int main() {
     int choice;
     cin >> choice;
     Puzzle puzzle;
-
-    if (choice == 1) {
-        puzzle = Puzzle::defaultPuzzle();
-    } else if (choice == 2) {
-        puzzle = getUserDefinedPuzzle();
-    } else {
-        cerr << "Invalid input, using default puzzle." << endl;
-        puzzle = Puzzle::defaultPuzzle();
-    }
-
+    
+    chooseSearch(choice, puzzle);
     puzzle.printPuzzle();
 
     printAlgorithmChoice();
     cin >> choice;
-
-    if(choice == 1)
-    {
-        Tree* allMoves;
-        Node* initialState = new Node(puzzle, 0, 0);
-        Node* solution = UniformCostSearch(initialState);
-        int numMoves = 0;
-        if(solution != nullptr)
-        {
-            vector<Node*> movesList = allMoves->ParentList(solution);
-            Node* currNode;
-            cout << "Here is the best path to the solution: " << endl;  
-            for(int i = movesList.size() - 1; i >= 0; --i)
-            {
-                if(i == movesList.size() - 1){cout << "Initial state" << endl;}
-                else{cout << "Move " << numMoves << endl;}
-                numMoves++;
-                movesList[i]->GetPuzzle().printPuzzle();
-                cout << endl;
-            }
-            cout << "GOAL!!!" << endl;
-        }
-        else 
-        {
-            cout << "There is not path to the solution" << endl;
-        }
-        delete solution;
-        delete allMoves;
-    }
-    // SearchAlgorithm* algorithm = getAlgorithm(choice, puzzle);
-
-    // algorithm->solve(puzzle);
-
-    // delete algorithm;  // Clean up the dynamically allocated memory
+    Search algorithmChoice(choice, puzzle);
+    algorithmChoice.AlgorithmPick();
     return 0;
 }

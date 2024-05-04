@@ -7,6 +7,6 @@
 #include "tree.h"
 
 
-Node* UniformCostSearch(Node*);
+Node* UniformCostSearch(Node* s);
 
 #endif

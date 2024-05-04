@@ -57,7 +57,7 @@ Node* Node::GetParent()
 
 int Node::ParentCost()
 {
-    if(parent = nullptr)
+    if(parent == nullptr)
     {
         return 0;
     }

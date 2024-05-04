@@ -10,6 +10,7 @@ Puzzle::Puzzle() : board(3, vector<int>(3, 0)) {}
 Puzzle::Puzzle(const vector<vector<int>>& initBoard) : board(initBoard) {}
 
 Puzzle Puzzle::defaultPuzzle() {
+    std::cout<<"Hello"<<std::endl;
     return Puzzle({{1, 0, 3}, {4, 2, 6}, {7, 5, 8}});
 }
 
