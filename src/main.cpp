@@ -45,20 +45,6 @@ void printAlgorithmChoice() {
     cout << "3. A* with the Euclidean distance heuristic" << endl;
 }
 
-// SearchAlgorithm* getAlgorithm(int choice, const Puzzle& puzzle) {
-//     switch (choice) {
-//         case 1:
-//             return new UniformCostSearch();
-//         case 2:
-//             return new AStarMisplacedTile();
-//         case 3:
-//             return new AStarEuclidean();
-//         default:
-//             std::cerr << "Invalid choice, using Uniform Cost Search by default.\n";
-//             return new UniformCostSearch();
-//     }
-// }
-
 int main() {
     printWelcomeMessage();
     printMenu();
@@ -83,37 +69,35 @@ int main() {
 
     Node* solution = nullptr;
     // After the choice is made:
-if (choice == 1) {
-    Node* start = new Node(puzzle, 0, 0);
-    solution = UniformCostSearch(start);
-} else if (choice == 2) {
-    Node* start = new Node(puzzle, 0, 0);
-    solution = AStarMisplacedTile(start);
-} else if (choice == 3) {
-    Node* start = new Node(puzzle, 0, 0);
-    solution = AStarEuclidean(start);
-}
-
-if (solution) {
-    std::vector<Node*> path;
-    Node* current = solution;
-    while (current != nullptr) {
-        path.push_back(current);
-        current = current->GetParent();
-    }
-    std::reverse(path.begin(), path.end());
-
-    std::cout << "Path to the solution" << std::endl;
-    for (Node* step : path) {
-        step->GetPuzzle().printPuzzle();
-        std::cout << std::endl;
+    if (choice == 1) {
+        Node* start = new Node(puzzle, 0, 0);
+        solution = UniformCostSearch(start);
+    } else if (choice == 2) {
+        Node* start = new Node(puzzle, 0, 0);
+        solution = AStarMisplacedTile(start);
+    } else if (choice == 3) {
+        Node* start = new Node(puzzle, 0, 0);
+        solution = AStarEuclidean(start);
     }
 
-    std::cout << "Goal reached with cost: " << solution->cost << std::endl;
-} else {
-    std::cout << "No solution found." << std::endl;
-}
+    if (solution) {
+        vector<Node*> path;
+        Node* current = solution;
+        while (current != nullptr) {
+            path.push_back(current);
+            current = current->GetParent();
+        }
+        reverse(path.begin(), path.end());
 
+        cout << "Path to the solution" << endl;
+        for (Node* step : path) {
+            step->GetPuzzle().printPuzzle();
+            cout << endl;
+        }
 
+        cout << "Goal reached with cost: " << solution->cost << endl;
+    } else {
+        cout << "No solution found." << endl;
+    }
     return 0;
 }

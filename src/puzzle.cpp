@@ -1,6 +1,6 @@
 #include "../include/puzzle.h"
 #include <iostream>
-#include <algorithm>  // For std::swap
+#include <algorithm>
 
 // Initialize the goal state statically as required
 const vector<vector<int>> Puzzle::goalState = {{1, 2, 3}, {4, 5, 6}, {7, 8, 0}};
@@ -75,8 +75,7 @@ void Puzzle::printPuzzle() const {
     }
 }
 
-vector<vector<int>> Puzzle::getBoard() const
-{
+vector<vector<int>> Puzzle::getBoard() const {
     return board;
 }
 

@@ -19,5 +19,4 @@ class Tree
         vector<Node*> ParentList(Node*);
 };
 
-
-#endif
+#endif // TREE_H

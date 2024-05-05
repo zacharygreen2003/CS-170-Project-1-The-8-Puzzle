@@ -27,4 +27,4 @@ class Node
         Puzzle GetPuzzle();
 };
 
-#endif
+#endif // NODE_H
