@@ -8,38 +8,23 @@
 
 void fifoQF(std::vector<Node*>& frontier, const std::vector<Node*>& nodes) {
 
-    printf("expand\n");
     for (int i = 0; i < nodes.size(); ++i) {
-        printf("ID: %i\n", nodes[i]->nodeID);
-        nodes[i]->GetPuzzle().printPuzzle();
-        printf("*\n");
-    }
-
-    printf("ADDED\n");
-    for (int i = 0; i < nodes.size(); ++i) {
-        bool found = false;
-        for (int j = 0; j < frontier.size(); ++j) {
-            if (frontier[j] == nodes[i]) {
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
-            printf("ID: %i\n", nodes[i]->nodeID);
-            frontier.push_back(nodes[i]);
-        }
+        frontier.push_back(nodes[i]);
     }
 }
 void AStarEuclidean(std::vector<Node*>& frontier, const std::vector<Node*>& nodes) {
     // use nodes and compute the cost from the initial state which is add 1.
     // for each node in nodes compute the euclidean distance between where 0 is and where it should be in the goal state.
 
+    // DEBUGGING
     printf("expand\n");
     for (int i = 0; i < nodes.size(); ++i) {
         printf("ID: %i\n", nodes[i]->nodeID);
         nodes[i]->GetPuzzle().printPuzzle();
         printf("*\n");
     }
+    //
+
     for (int i = 0; i < nodes.size(); ++i) {
         if (nodes[i]->GetParent() != nullptr) {
             nodes[i]->cost = 1 + nodes[i]->GetParent()->cost;
@@ -59,9 +44,6 @@ void AStarEuclidean(std::vector<Node*>& frontier, const std::vector<Node*>& node
                 }
             }
         }
-        //nodes[i]->GetPuzzle().printPuzzle();
-        //printf("x: %i, y: %i, gx: %i, gy: %i\n", x, y, goalx, goaly);
-        //printf("heuristic: %f\n", sqrt(pow(goalx - x, 2) + pow(goaly - y, 2)));
         nodes[i]->hueristic = sqrt(pow(goalx-x,2) + pow(goaly-y,2));
     }
 
@@ -75,7 +57,6 @@ void AStarEuclidean(std::vector<Node*>& frontier, const std::vector<Node*>& node
             }
         }
         printf("ID: %i\n",nodes[i]->nodeID);
-        printf("at: %i\n", place);
         frontier.insert(frontier.begin() + place, nodes[i]);
     }
 
