@@ -25,6 +25,7 @@ Node* UniformCostSearch(Node* s)
         enableTrace = false;
     }
     moves.push(s);
+    pMoves.Insert(s->GetPuzzle());
     while(!moves.empty())
     {
         if(moves.size() > maxQueueSize)
@@ -32,7 +33,6 @@ Node* UniformCostSearch(Node* s)
             maxQueueSize = moves.size();
         }
         currNode = moves.front();
-        pMoves.Insert(currNode->GetPuzzle());
         numExpandedNodes++;
 
         if(enableTrace)
@@ -66,6 +66,7 @@ Node* UniformCostSearch(Node* s)
                 currNode->SetChild(next);
                 next->SetParent(currNode);
                 moves.push(next);
+                pMoves.Insert(next->GetPuzzle());
             }
         }
         moves.pop();
