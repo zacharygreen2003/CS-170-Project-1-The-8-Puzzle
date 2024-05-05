@@ -1,76 +1,70 @@
-//Currently being worked on by Donovan and Adwin
 #include "../include/UniformCostSearch.h"
 #include "../include/hashtable.h"
 #include <queue>
+#include <vector>
 #include <iostream>
 
-using namespace std;
 
-Node* UniformCostSearch(Node* s)
-{
-    int numExpandedNodes = 0;
+Node* UniformCostSearch(Node* start) {
+    std::queue<Node*> frontier;
+    frontier.push(start);
+    HashTable explored(20);
+    int nodesExpanded = 0;
     int maxQueueSize = 0;
-    int traceChoice = 1;
-    bool notRepeated = false;
-    bool enableTrace = true;
-    queue<Node*> moves;
-    HashTable pMoves(20);
-    Node* currNode = nullptr;
+    int traceAnswer = 2;
+    bool traceChoice = false;
 
-    cout << "Would you like to trace all expanded nodes? 1) Yes  2) No" << endl;
-    cin >> traceChoice;
-    if(traceChoice == 2)
-    {
-        cout << "Finding best solution. This may take a while." << endl;
-        enableTrace = false;
-    }
-    moves.push(s);
-    while(!moves.empty())
-    {
-        if(moves.size() > maxQueueSize)
-        {
-            maxQueueSize = moves.size();
-        }
-        currNode = moves.front();
-        pMoves.Insert(currNode->GetPuzzle());
-        numExpandedNodes++;
+    //enable or disable the trace
+    std::cout << "Would you like to trace the expanded nodes? 1) Yes  2) No" << endl;
+    cin >> traceAnswer;
+    if(traceAnswer == 1){traceChoice = true;}
 
-        if(enableTrace)
+    // Print initial expanding state with 'b' replacing '0'
+    std::cout << "Expanding state" << std::endl;
+    start->GetPuzzle().printPuzzle();
+    std::cout << std::endl;
+
+    explored.Insert(start->GetPuzzle());
+    while (!frontier.empty()) {
+        Node* current = frontier.front();
+        frontier.pop();
+        nodesExpanded++;
+        maxQueueSize = std::max(maxQueueSize, int(frontier.size()));
+
+        if(traceChoice)
         {
-        cout<<"The best state to expand with g(n) = "<<currNode->cost<<" and h(n) = "<<currNode->hueristic<<" is..." <<endl;
-        currNode->GetPuzzle().printPuzzle();
-        cout << "Expanding Node..." << endl << endl;
+            std::cout << "The best state to expand with g(n) = " << current->cost << " is..." << std::endl;
+            current->GetPuzzle().printPuzzle();
+            std::cout << "      Expanding this node..." << std::endl << std::endl;
         }
 
-        if(currNode->GetPuzzle().isGoal())
-        {
-            cout << "GOAL!!!" << endl << endl;
-            cout << "To solve this proble the algorithm expanded a total of " << numExpandedNodes << " nodes" << endl;
-            cout << "The maximum number of nodes in the queue at any one time: " << maxQueueSize << endl;
-            cout << "The depth of the goal node was " << currNode->cost << endl << endl;
-            return currNode;
+        if (current->GetPuzzle().isGoal()) {
+            std::cout << "Goal!!!" << std::endl;
+            std::cout << "To solve this problem the search algorithm expanded a total of " << nodesExpanded << " nodes." << std::endl;
+            std::cout << "The maximum number of nodes in the queue at any one time: " << maxQueueSize << "." << std::endl;
+            std::cout << "The depth of the goal node was " << current->cost << "." << std::endl << std::endl;
+            return current;
         }
 
-        vector<Puzzle> succ;
-        succ = currNode->GetPuzzle().successors();
-        for(unsigned int i = 0; i < succ.size(); i++)
-        {
-            notRepeated = true;
-            Node* next = new Node(succ[i],currNode->cost + 1, 0);
-            if(pMoves.Contains(next->GetPuzzle()))
+        std::vector<Puzzle> successors = current->GetPuzzle().successors();
+        for (const Puzzle& succ : successors) {
+            Node* child = new Node(succ, current->cost + 1, 0);
+            if (!explored.Contains(succ)) 
             {
-                notRepeated = false;
-            }
-            if(notRepeated)
+                explored.Insert(succ);
+                current->SetChild(child);
+                child->SetParent(current);
+                frontier.push(child);
+            } 
+            else 
             {
-                currNode->SetChild(next);
-                next->SetParent(currNode);
-                moves.push(next);
+                delete child;
             }
         }
-        moves.pop();
     }
-    cout << "Failure..." << endl;
-    currNode = nullptr;
-    return currNode;
+
+    std::cout << "To solve this problem the search algorithm expanded a total of " << nodesExpanded << " nodes." << std::endl;
+    std::cout << "The maximum number of nodes in the queue at any one time: " << maxQueueSize << "." << std::endl;
+    std::cout << "No solution found." << std::endl << std::endl;
+    return nullptr;
 }

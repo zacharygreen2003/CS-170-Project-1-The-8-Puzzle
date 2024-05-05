@@ -75,7 +75,11 @@ void Puzzle::printPuzzle() const {
     }
 }
 
-vector<vector<int>> Puzzle::getBoard()
+vector<vector<int>> Puzzle::getBoard() const
 {
     return board;
+}
+
+const vector<vector<int>>& Puzzle::getGoalState() {
+    return goalState;
 }

@@ -1,9 +1,13 @@
 // #include <bits/stdc++.h>
 
 #include <iostream>
+#include <algorithm>
 #include "../include/puzzle.h"
 #include "../include/UniformCostSearch.h"
+#include "../include/AStarMisplacedTile.h"
+#include "../include/AStarEuclidean.h"
 #include "../include/tree.h"
+#include "../include/node.h"
 
 using namespace std;
 
@@ -77,38 +81,39 @@ int main() {
     printAlgorithmChoice();
     cin >> choice;
 
-    if(choice == 1)
-    {
-        Tree* allMoves;
-        Node* initialState = new Node(puzzle, 0, 0);
-        Node* solution = UniformCostSearch(initialState);
-        int numMoves = 0;
-        if(solution != nullptr)
-        {
-            vector<Node*> movesList = allMoves->ParentList(solution);
-            Node* currNode;
-            cout << "Here is the best path to the solution: " << endl;  
-            for(int i = movesList.size() - 1; i >= 0; --i)
-            {
-                if(i == movesList.size() - 1){cout << "Initial state" << endl;}
-                else{cout << "Move " << numMoves << endl;}
-                numMoves++;
-                movesList[i]->GetPuzzle().printPuzzle();
-                cout << endl;
-            }
-            cout << "GOAL!!!" << endl;
-        }
-        else 
-        {
-            cout << "There is not path to the solution" << endl;
-        }
-        delete solution;
-        delete allMoves;
+    Node* solution = nullptr;
+    // After the choice is made:
+if (choice == 1) {
+    Node* start = new Node(puzzle, 0, 0);
+    solution = UniformCostSearch(start);
+} else if (choice == 2) {
+    Node* start = new Node(puzzle, 0, 0);
+    solution = AStarMisplacedTile(start);
+} else if (choice == 3) {
+    Node* start = new Node(puzzle, 0, 0);
+    solution = AStarEuclidean(start);
+}
+
+if (solution) {
+    std::vector<Node*> path;
+    Node* current = solution;
+    while (current != nullptr) {
+        path.push_back(current);
+        current = current->GetParent();
     }
-    // SearchAlgorithm* algorithm = getAlgorithm(choice, puzzle);
+    std::reverse(path.begin(), path.end());
 
-    // algorithm->solve(puzzle);
+    std::cout << "Path to the solution" << std::endl;
+    for (Node* step : path) {
+        step->GetPuzzle().printPuzzle();
+        std::cout << std::endl;
+    }
 
-    // delete algorithm;  // Clean up the dynamically allocated memory
+    std::cout << "Goal reached with cost: " << solution->cost << std::endl;
+} else {
+    std::cout << "No solution found." << std::endl;
+}
+
+
     return 0;
 }
