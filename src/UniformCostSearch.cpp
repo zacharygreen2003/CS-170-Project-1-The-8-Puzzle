@@ -8,7 +8,7 @@
 Node* UniformCostSearch(Node* start) {
     std::queue<Node*> frontier;
     frontier.push(start);
-    HashTable explored(100);
+    HashTable explored(20);
     int nodesExpanded = 0;
     int maxQueueSize = 0;
     int traceAnswer = 2;
@@ -33,7 +33,7 @@ Node* UniformCostSearch(Node* start) {
 
         if(traceChoice)
         {
-            std::cout << "The best state to expand with g(n) = " << current->cost << " and h(n) = " << current->hueristic << " is..." << std::endl;
+            std::cout << "The best state to expand with g(n) = " << current->cost << " is..." << std::endl;
             current->GetPuzzle().printPuzzle();
             std::cout << "      Expanding this node..." << std::endl << std::endl;
         }
@@ -42,7 +42,7 @@ Node* UniformCostSearch(Node* start) {
             std::cout << "Goal!!!" << std::endl;
             std::cout << "To solve this problem the search algorithm expanded a total of " << nodesExpanded << " nodes." << std::endl;
             std::cout << "The maximum number of nodes in the queue at any one time: " << maxQueueSize << "." << std::endl;
-            std::cout << "The depth of the goal node was " << current->cost << "." << std::endl;
+            std::cout << "The depth of the goal node was " << current->cost << "." << std::endl << std::endl;
             return current;
         }
 
@@ -65,6 +65,6 @@ Node* UniformCostSearch(Node* start) {
 
     std::cout << "To solve this problem the search algorithm expanded a total of " << nodesExpanded << " nodes." << std::endl;
     std::cout << "The maximum number of nodes in the queue at any one time: " << maxQueueSize << "." << std::endl;
-    std::cout << "No solution found." << std::endl;
+    std::cout << "No solution found." << std::endl << std::endl;
     return nullptr;
 }
