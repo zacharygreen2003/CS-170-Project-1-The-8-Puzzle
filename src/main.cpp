@@ -1,6 +1,7 @@
 // #include <bits/stdc++.h>
 
 #include <iostream>
+#include <algorithm>
 #include "../include/puzzle.h"
 #include "../include/UniformCostSearch.h"
 #include "../include/AStarMisplacedTile.h"
@@ -102,6 +103,7 @@ if (solution) {
     }
     std::reverse(path.begin(), path.end());
 
+    std::cout << "Path to the solution" << std::endl;
     for (Node* step : path) {
         step->GetPuzzle().printPuzzle();
         std::cout << std::endl;

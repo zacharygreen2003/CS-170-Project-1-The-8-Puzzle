@@ -1,5 +1,5 @@
-#include "AStarMisplacedTile.h"
-#include "hashtable.h"
+#include "../include/AStarMisplacedTile.h"
+#include "../include/hashtable.h"
 #include <queue>
 #include <vector>
 #include <iostream>

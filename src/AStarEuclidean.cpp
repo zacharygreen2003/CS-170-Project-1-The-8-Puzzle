@@ -1,5 +1,5 @@
-#include "AStarEuclidean.h"
-#include "hashtable.h"
+#include "../include/AStarEuclidean.h"
+#include "../include/hashtable.h"
 #include <queue>
 #include <cmath>  // For std::sqrt and std::pow
 #include <iostream>
