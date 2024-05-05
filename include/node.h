@@ -2,8 +2,10 @@
 #define NODE_H
 
 #include "puzzle.h"
-#include "hashtable.h"
+//#include "hashtable.h"
 #include <vector>
+
+class HashTable;
 
 using namespace std;
 
@@ -15,8 +17,10 @@ class Node
         vector<Node*> children;
         static HashTable ht;
     public:
+        int nodeID;
+        static int counter;
         int cost;
-        int hueristic;
+        float hueristic;
         Node();   
         Node(Puzzle, int, int);
         ~Node();
@@ -28,6 +32,8 @@ class Node
         Puzzle GetPuzzle();
 
         vector<Node*> expand();
+        /*Tree* getTree();
+        void setTree(Tree*);*/
 };
 
 

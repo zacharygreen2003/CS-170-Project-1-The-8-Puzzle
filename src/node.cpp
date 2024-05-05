@@ -1,15 +1,19 @@
 #include "../include/node.h"
-//#include "../include/hashtable.h"
+#include "../include/hashtable.h"
 
 using namespace std;
 
 HashTable Node::ht(100000);
+int Node::counter = 0;
 
 Node::Node()
 {
     parent = nullptr;
     cost = 0;
     hueristic = 0;
+    //
+    counter++;
+    nodeID = counter;
 }
 
 Node::Node(Puzzle currBoard, int c, int h)
@@ -18,6 +22,10 @@ Node::Node(Puzzle currBoard, int c, int h)
     cost = c;
     hueristic = h;
     parent = nullptr;
+    ht.Insert(this);
+    counter++;
+    nodeID = counter;
+
 }
 
 Node::~Node() 
@@ -68,25 +76,35 @@ vector<Node*> Node::expand() {
     vector<Puzzle> puzzle = this->GetPuzzle().successors();
     vector<Node*> n;
 
-    /*cout << "-------------" << endl;
+    Node* newNode;
+
+    char stop;
+    printf("-------------\n");
 
     for (int i = 0; i < puzzle.size(); ++i) {
-        cout << endl;
-        puzzle[i].printPuzzle();
-    }
 
-    cout << "-------------" << endl;*/
-    for (int i = 0; i < puzzle.size(); ++i) {
-       /* cout << endl;
-        puzzle[i].printPuzzle();*/
         if (!ht.Contains(puzzle[i])) {
-            ht.Insert(puzzle[i]);
-            n.push_back(new Node(puzzle[i], 0, 0));
+            //printf("notfound\n");
+            newNode = new Node(puzzle[i], 0, 0);
+            newNode->SetParent(this);
+
+            //printf("id: %i\n", newNode->nodeID);
+            n.push_back(newNode);
+            //puzzle[i].printPuzzle();
+
+        }
+        else {
+            printf("DROPPED\n");
+            Node* n = ht.Contains(puzzle[i]);
+            printf("ID: %i\n", n->nodeID);
+            // I need to append the node but I cant find it.
+            //printf("found\n");
+            //n.push_back(ht.Contains(puzzle[i]));
+            //n.push_back(newNode);
+            //printf("id: %i\n", newNode->nodeID);
+            //puzzle[i].printPuzzle();
         }
     }
-
-    
-    
     
     children = n;
     return n;
