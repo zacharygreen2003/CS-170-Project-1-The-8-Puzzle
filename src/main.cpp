@@ -94,7 +94,6 @@ int main() {
             step->GetPuzzle().printPuzzle();
             cout << endl;
         }
-
         cout << "Goal reached with cost: " << solution->cost << endl;
     } else {
         cout << "No solution found." << endl;
