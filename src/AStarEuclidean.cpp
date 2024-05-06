@@ -1,33 +1,62 @@
-#include "../include/UniformCostSearch.h"
+#include "../include/AStarEuclidean.h"
 #include "../include/hashtable.h"
 #include <queue>
-#include <vector>
+#include <cmath>
 #include <iostream>
 
 using namespace std;
 
-Node* UniformCostSearch(Node* start) {
-    queue<Node*> frontier;
-    frontier.push(start);
+struct NodeComparator {
+    bool operator()(const Node* a, const Node* b) const {
+        return (a->cost + a->hueristic) > (b->cost + b->hueristic);
+    }
+};
+
+// Heuristic function: Euclidean distance for each tile to its goal position
+int euclideanDistanceHeuristic(const Puzzle& current) {
+    const auto& currentBoard = current.getBoard();
+    const auto& goalBoard = Puzzle::getGoalState();
+
+    int distance = 0;
+    for (int i = 0; i < currentBoard.size(); i++) {
+        for (int j = 0; j < currentBoard[i].size(); j++) {
+            int tile = currentBoard[i][j];
+            if (tile != 0) {
+                for (int k = 0; k < goalBoard.size(); k++) {
+                    for (int l = 0; l < goalBoard[k].size(); l++) {
+                        if (goalBoard[k][l] == tile) {
+                            int dx = i - k;
+                            int dy = j - l;
+                            distance += sqrt(dx * dx + dy * dy);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return distance;
+}
+
+Node* AStarEuclidean(Node* start) {
+    priority_queue<Node*, vector<Node*>, NodeComparator> frontier;
     HashTable explored(100);
+    frontier.push(start);
     int nodesExpanded = 0;
     int maxQueueSize = 0;
     int traceAnswer = 2;
     bool traceChoice = false;
 
-    //enable or disable the trace
+    // Enable or disable the trace
     cout << "Would you like to trace the expanded nodes? 1) Yes  2) No" << endl;
     cin >> traceAnswer;
     if(traceAnswer == 1){traceChoice = true;}
 
-    // Print initial expanding state with 'b' replacing '0'
     cout << "Expanding state" << endl;
     start->GetPuzzle().printPuzzle();
     cout << endl;
 
-    explored.Insert(start->GetPuzzle());
     while (!frontier.empty()) {
-        Node* current = frontier.front();
+        Node* current = frontier.top();
         frontier.pop();
         nodesExpanded++;
         maxQueueSize = max(maxQueueSize, int(frontier.size()));
@@ -49,16 +78,14 @@ Node* UniformCostSearch(Node* start) {
 
         vector<Puzzle> successors = current->GetPuzzle().successors();
         for (const Puzzle& succ : successors) {
-            Node* child = new Node(succ, current->cost + 1, 0);
-            if (!explored.Contains(succ)) 
-            {
+            int h = euclideanDistanceHeuristic(succ);
+            Node* child = new Node(succ, current->cost + 1, h);
+            if (!explored.Contains(succ)) {
                 explored.Insert(succ);
+                frontier.push(child);
                 current->SetChild(child);
                 child->SetParent(current);
-                frontier.push(child);
-            } 
-            else 
-            {
+            } else {
                 delete child;
             }
         }

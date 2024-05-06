@@ -1,9 +1,13 @@
 // #include <bits/stdc++.h>
 
 #include <iostream>
+#include <algorithm>
 #include "../include/puzzle.h"
 #include "../include/UniformCostSearch.h"
+#include "../include/AStarMisplacedTile.h"
+#include "../include/AStarEuclidean.h"
 #include "../include/tree.h"
+#include "../include/node.h"
 
 using namespace std;
 
@@ -41,20 +45,6 @@ void printAlgorithmChoice() {
     cout << "3. A* with the Euclidean distance heuristic" << endl;
 }
 
-// SearchAlgorithm* getAlgorithm(int choice, const Puzzle& puzzle) {
-//     switch (choice) {
-//         case 1:
-//             return new UniformCostSearch();
-//         case 2:
-//             return new AStarMisplacedTile();
-//         case 3:
-//             return new AStarEuclidean();
-//         default:
-//             std::cerr << "Invalid choice, using Uniform Cost Search by default.\n";
-//             return new UniformCostSearch();
-//     }
-// }
-
 int main() {
     printWelcomeMessage();
     printMenu();
@@ -77,38 +67,36 @@ int main() {
     printAlgorithmChoice();
     cin >> choice;
 
-    if(choice == 1)
-    {
-        Tree* allMoves;
-        Node* initialState = new Node(puzzle, 0, 0);
-        Node* solution = UniformCostSearch(initialState);
-        int numMoves = 0;
-        if(solution != nullptr)
-        {
-            vector<Node*> movesList = allMoves->ParentList(solution);
-            Node* currNode;
-            cout << "Here is the best path to the solution: " << endl;  
-            for(int i = movesList.size() - 1; i >= 0; --i)
-            {
-                if(i == movesList.size() - 1){cout << "Initial state" << endl;}
-                else{cout << "Move " << numMoves << endl;}
-                numMoves++;
-                movesList[i]->GetPuzzle().printPuzzle();
-                cout << endl;
-            }
-            cout << "GOAL!!!" << endl;
-        }
-        else 
-        {
-            cout << "There is not path to the solution" << endl;
-        }
-        delete solution;
-        delete allMoves;
+    Node* solution = nullptr;
+    // After the choice is made:
+    if (choice == 1) {
+        Node* start = new Node(puzzle, 0, 0);
+        solution = UniformCostSearch(start);
+    } else if (choice == 2) {
+        Node* start = new Node(puzzle, 0, 0);
+        solution = AStarMisplacedTile(start);
+    } else if (choice == 3) {
+        Node* start = new Node(puzzle, 0, 0);
+        solution = AStarEuclidean(start);
     }
-    // SearchAlgorithm* algorithm = getAlgorithm(choice, puzzle);
 
-    // algorithm->solve(puzzle);
+    if (solution) {
+        vector<Node*> path;
+        Node* current = solution;
+        while (current != nullptr) {
+            path.push_back(current);
+            current = current->GetParent();
+        }
+        reverse(path.begin(), path.end());
 
-    // delete algorithm;  // Clean up the dynamically allocated memory
+        cout << "Path to the solution" << endl;
+        for (Node* step : path) {
+            step->GetPuzzle().printPuzzle();
+            cout << endl;
+        }
+        cout << "Goal reached with cost: " << solution->cost << endl;
+    } else {
+        cout << "No solution found." << endl;
+    }
     return 0;
 }

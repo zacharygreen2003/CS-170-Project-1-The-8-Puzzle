@@ -20,4 +20,4 @@ class HashTable
         void Insert(Puzzle);
 };
 
-#endif
+#endif // HASHTABLE_H
